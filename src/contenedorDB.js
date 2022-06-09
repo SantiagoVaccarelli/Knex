@@ -13,20 +13,20 @@ class ContenedorDB {
           })
     }
 
-    save(obj) {
-        this.knex(this.tabla).insert(obj)
+    async save(obj) {
+        await this.knex(this.tabla).insert(obj)
     }
 
-    getAll() {
-        return this.knex(this.tabla).select('*')
+    async getAll() {
+        return await this.knex(this.tabla).select('*')
     }
 
-    borrarPorId(id) {
-        this.knex.from(this.tabla).where('id', id).del()
+    async deleteById(id) {
+        await this.knex.from(this.tabla).where('id', id).del()
     }
 
-    vaciar() {
-        this.knex(this.tabla).del()
+    async deleteAll() {
+        await this.knex(this.tabla).del()
     }
 }
 
