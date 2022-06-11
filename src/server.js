@@ -73,7 +73,7 @@ io.on('connection', async(socket) => {
     })
 })
 
-const PORT = 8080;
+const PORT = 8081;
 server.listen(PORT, async () => {
     console.log(`Servidor iniciado en puerto: ${PORT}`);
     // await db(process.env.T_PRODUCTOS).insert({
