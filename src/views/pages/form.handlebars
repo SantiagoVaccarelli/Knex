@@ -6,21 +6,21 @@
         <div>
             <div>
                 <span id="basic-addon1">Título</span>
-                <input id="input-title" type="text" name="title" required class="form-control" placeholder="Título del producto" aria-label="Título" aria-describedby="basic-addon1">
+                <input id="input-title" type="text" name="title" class="form-control" placeholder="Título del producto" aria-label="Título" aria-describedby="basic-addon1">
             </div>
         </div>
 
         <div>
             <div>
                 <span id="basic-addon2">Precio</span>
-                <input id="input-price" type="text" name="price" required class="form-control" placeholder="Precio unitario" aria-label="Precio" aria-describedby="basic-addon1">
+                <input id="input-price" type="text" name="price" class="form-control" placeholder="Precio unitario" aria-label="Precio" aria-describedby="basic-addon1">
             </div>
         </div>
 
         <div>
             <div>
                 <span id="basic-addon3">Thumbnail</span>
-                <input id="input-img" type="text" name="thumbnail" required class="form-control" placeholder="Thumbnail (URL)" aria-label="Thumbnail" aria-describedby="basic-addon1">
+                <input id="input-img" type="text" name="thumbnail" class="form-control" placeholder="Thumbnail (URL)" aria-label="Thumbnail" aria-describedby="basic-addon1">
             </div>
         </div>
 
@@ -36,14 +36,14 @@
         <div>
             <div>
                 <span id="basic-addon3">Email</span>
-                <input id="input-email" type="text" name="thumbnail" required class="form-control" placeholder="Ingresá tu email" aria-label="email" aria-describedby="basic-addon1">
+                <input id="input-email" type="text" name="thumbnail" class="form-control" placeholder="Ingresá tu email" aria-label="email" aria-describedby="basic-addon1">
             </div>
         </div>
 
         <div class="col-sm-5">
             <div>
                 <span id="basic-addon3">Mensaje</span>
-                <input id="input-mensaje" type="email" name="thumbnail" required class="form-control" placeholder="Ingresá tu mensaje" aria-label="mensaje" aria-describedby="basic-addon1">
+                <input id="input-mensaje" type="text" name="thumbnail" class="form-control" placeholder="Ingresá tu mensaje" aria-label="mensaje" aria-describedby="basic-addon1">
             </div>
         </div>
 
@@ -91,9 +91,9 @@
                 if (email !== '' && mensaje !== '') {
                 
                     socket.emit('nuevoMensaje', {
-                        "email" : email,
-                        "message" : mensaje,
-                        "date" : new Date().toLocaleString()
+                        "id" : new Date().toLocaleString(),
+                        "userId" : email,
+                        "message" : mensaje
                     })
                 }
                 
@@ -119,7 +119,7 @@
                 data.forEach( (mensaje) => {
                     $('#chat').append(
                     `
-                    <small style="display:block"> - <em style="color:#9f9f9f">[${mensaje.date}]</em> <strong style="color:green">${mensaje.email}</strong>: ${mensaje.message} </small>
+                    <small style="display:block"> - <em style="color:#9f9f9f">[${mensaje.id}]</em> <strong style="color:green">${mensaje.userId}</strong>: ${mensaje.message} </small>
                     `
                     )
                 })
@@ -131,7 +131,7 @@
                 data.forEach( (mensaje) => {
                     $('#chat').append(
                     `
-                    <small style="display:block"> - <em style="color:#9f9f9f">[${mensaje.date}]</em> <strong style="color:green">${mensaje.email}</strong>: ${mensaje.message} </small>
+                    <small style="display:block"> - <em style="color:#9f9f9f">[${mensaje.id}]</em> <strong style="color:green">${mensaje.email}</strong>: ${mensaje.message} </small>
                     `
                     )
                 })
@@ -168,7 +168,6 @@
                     `
                     )
                 })
-                
             })
         </script>
     </form>

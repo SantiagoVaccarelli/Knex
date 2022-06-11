@@ -4,15 +4,19 @@ const app = express();
 
 const { Server } = require('socket.io');
 const { engine } = require('express-handlebars');
-const knexConfig = require('../config')
-const ContenedorDB = require('./contenedorDB')
+const ContenedorDB = require('./contenedorDB');
+const ContenedorDBChat = require('./contenedorDBChat');
 
 const server = http.createServer(app);
 const io = new Server(server);
 
-const contenedor = new ContenedorDB(knexConfig, "productos");
-const chat = new ContenedorDB(knexConfig, "chat")
+const dotenv = require("dotenv");
+const db = require('../db');
 
+const contenedor = new ContenedorDB();
+const chat = new ContenedorDBChat();
+
+dotenv.config();
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -34,6 +38,7 @@ app.get('/products', async(req, res) => {
 
 app.post('/products', async(req,res) => {
     const body = req.body;
+    console.log(body)
     await contenedor.save(body);
     res.redirect('/');
 })
@@ -46,7 +51,7 @@ io.on('connection', async(socket) => {
     console.log('Un usuario se ha conectado')
     
     const productos = await contenedor.getAll();
-    socket.emit('cargarProductos', productos )
+    socket.emit('cargarProductos', productos)
     
     const mensajes = await chat.getAll();
     socket.emit('cargarMensajes', mensajes)
@@ -69,6 +74,13 @@ io.on('connection', async(socket) => {
 })
 
 const PORT = 8080;
-server.listen(PORT, () => {
-console.log(`Servidor iniciado en puerto: ${PORT}`)
+server.listen(PORT, async () => {
+    console.log(`Servidor iniciado en puerto: ${PORT}`);
+    // await db(process.env.T_PRODUCTOS).insert({
+    //     nombre: 'Esteban',
+    //     apellido: 'Quito',
+    //     edad: 24,
+    //     email: 'Equito@gmail.com'
+    // })
+    // console.log(await db(process.env.T_PRODUCTOS).select())
 })

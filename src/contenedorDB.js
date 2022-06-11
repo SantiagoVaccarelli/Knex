@@ -1,32 +1,21 @@
-const knexLib = require('knex')
+const db = require('../db')
 
 class ContenedorDB {
 
-    constructor(config, tabla){
-        this.knex = knexLib(config)
-        this.tabla = tabla
-          return this.knex.schema.createTableIfNotExists(this.tabla, table => {
-                table.increments('id').primary();
-                table.string('title', 50).notNullable();
-                table.float('price');
-                table.string('thumbnail');
-          })
-    }
-
     async save(obj) {
-        await this.knex(this.tabla).insert(obj)
+        await db(process.env.T_PRODUCTOS).insert({title: obj.title, price:obj.price, thumbnail:obj.thumbnail[0]})
     }
 
     async getAll() {
-        return await this.knex(this.tabla).select('*')
+       return await db(process.env.T_PRODUCTOS).select()
     }
 
     async deleteById(id) {
-        await this.knex.from(this.tabla).where('id', id).del()
+        await db(process.env.T_PRODUCTOS).from(this.tabla).where('id', id).del()
     }
 
     async deleteAll() {
-        await this.knex(this.tabla).del()
+        await db(process.env.T_PRODUCTOS).del()
     }
 }
 
